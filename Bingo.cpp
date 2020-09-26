@@ -6,13 +6,53 @@
 using namespace std;
 
 void printBoard(int A[][5]) {
+	system("cls");
+
 	for (int i = 0; i < 5; i++) {
 		for (int j = 0; j < 5; j++) {
-			printf("%3d", A[i][j]);
+			if (A[i][j] == 0) {
+				printf("  X");
+			}
+			else {
+				printf("%3d", A[i][j]);
+			}
 		}
 		printf("\n");
 	}
-	printf("\n\n");
+	printf("\n");
+}
+
+void startGame(int A[][5]) {
+	int num;
+
+	while (1) {
+		printBoard(A);
+		cout << "Enter the number(Enter 0 to exit): ";
+		cin >> num;
+		if (num == 0) {
+			return;
+		}
+		else if (num < 1 || num > 25) {
+			continue;
+		}
+		else {
+			int flag = 0;
+			
+			for (int i = 0; i < 5; i++) {
+				for (int j = 0; j < 5; j++) {
+					if (A[i][j] == num) {
+						A[i][j] = 0;
+						flag = 1;
+						break;
+					}
+				}
+				if (flag == 1) {
+					break;
+				}
+			}
+			continue;
+		}
+	}
 }
 
 void mixBoard(int A[][5]) {
@@ -47,7 +87,7 @@ int main() {
 	int Board[5][5];
 	
 	makeBoard(Board);
-	printBoard(Board);
+	startGame(Board);
 
 	return 0;
 }
