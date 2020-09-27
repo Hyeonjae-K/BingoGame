@@ -123,9 +123,7 @@ void startGame(int player[][5], int com[][5], int level) {
 	int num, bingop = 0, bingoc = 0;
 
 	while (1) {
-		system("cls");
 		printBoard(player);
-		printBoard(com);
 		cout << "Bingo: " << bingop << endl;
 		cout << "Enter the number(Enter 0 to exit): ";
 		cin >> num;
@@ -152,7 +150,7 @@ void startGame(int player[][5], int com[][5], int level) {
 	}
 }
 
-void mixBoard(int A[][5]) {
+void mixBoard(int board[][5]) {
 	for (int i = 0; i < 100; i++) {
 		int x1, y1, x2, y2, temp;
 
@@ -161,7 +159,7 @@ void mixBoard(int A[][5]) {
 		x2 = rand() % 5;
 		y2 = rand() % 5;
 
-		SWAP(A[y1][x1], A[y2][x2], temp);
+		SWAP(board[y1][x1], board[y2][x2], temp);
 	}
 }
 
