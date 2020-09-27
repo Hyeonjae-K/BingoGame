@@ -153,11 +153,8 @@ void startGame(int player[][5], int com[][5], int level) {
 }
 
 void mixBoard(int A[][5]) {
-	int temp;
-	srand(time(NULL));
-
 	for (int i = 0; i < 100; i++) {
-		int x1, y1, x2, y2;
+		int x1, y1, x2, y2, temp;
 
 		x1 = rand() % 5;
 		y1 = rand() % 5;
@@ -168,15 +165,17 @@ void mixBoard(int A[][5]) {
 	}
 }
 
-void makeBoard(int A[][5]) {
+void makeBoard(int board[][5]) {
+	srand(time(NULL));
 	int cnt = 1;
 
 	for (int i = 0; i < 5; i++) {
 		for (int j = 0; j < 5; j++) {
-			A[i][j] = cnt;
-			cnt++;
+			board[i][j] = cnt++;
 		}
 	}
+
+	mixBoard(board);
 }
 
 int main() {
@@ -185,9 +184,7 @@ int main() {
 	level = inputLevel();
 
 	makeBoard(player);
-	mixBoard(player);
 	makeBoard(computer);
-	mixBoard(computer);
 	startGame(player, computer, level);
 
 	return 0;
