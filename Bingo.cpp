@@ -35,50 +35,95 @@ void printBoard(int A[][5]) {
 	printf("\n");
 }
 
-int countBingo(int A[][5]) {
+int countBingo(int A[][5], int num) {
 	int bingo = 0, column, row, leftcross, rightcross;
 
-	for (int i = 0; i < 5; i++) {
-		column = 0;
-		row = 0;
+	if (num == 0) {
+		for (int i = 0; i < 5; i++) {
+			column = 0;
+			row = 0;
 
- 		for (int j = 0; j < 5; j++) {
-			if (A[i][j] == 0) {
-				column++;
+			for (int j = 0; j < 5; j++) {
+				if (A[i][j] == 0) {
+					column++;
+				}
+				if (A[j][i] == 0) {
+					row++;
+				}
 			}
-			if (A[j][i] == 0) {
-				row++;
+
+			if (column == 5) {
+				bingo++;
+			}
+			if (row == 5) {
+				bingo++;
 			}
 		}
 
-		if (column == 5) {
+		leftcross = 0;
+		rightcross = 0;
+
+		for (int i = 0; i < 5; i++) {
+			if (A[i][i] == 0) {
+				leftcross++;
+			}
+			if (A[i][4 - i] == 0) {
+				rightcross++;
+			}
+		}
+
+		if (leftcross == 5) {
 			bingo++;
 		}
-		if (row == 5) {
+		if (rightcross == 5) {
 			bingo++;
 		}
+
+		return bingo;
 	}
+	else {
+		for (int i = 0; i < 5; i++) {
+			column = 0;
+			row = 0;
 
-	leftcross = 0;
-	rightcross = 0;
+			for (int j = 0; j < 5; j++) {
+				if (A[i][j] == 0 || A[i][j] == num) {
+					column++;
+				}
+				if (A[j][i] == 0 || A[i][j] == num) {
+					row++;
+				}
+			}
 
-	for (int i = 0; i < 5; i++) {
-		if (A[i][i] == 0) {
-			leftcross++;
+			if (column == 5) {
+				bingo++;
+			}
+			if (row == 5) {
+				bingo++;
+			}
 		}
-		if (A[i][4 - i] == 0) {
-			rightcross++;
+
+		leftcross = 0;
+		rightcross = 0;
+
+		for (int i = 0; i < 5; i++) {
+			if (A[i][i] == 0 || A[i][i] == num) {
+				leftcross++;
+			}
+			if (A[i][4 - i] == 0 || A[i][4 - i] == num) {
+				rightcross++;
+			}
 		}
-	}
 
-	if (leftcross == 5) {
-		bingo++;
-	}
-	if (rightcross == 5) {
-		bingo++;
-	}
+		if (leftcross == 5) {
+			bingo++;
+		}
+		if (rightcross == 5) {
+			bingo++;
+		}
 
-	return bingo;
+		return bingo;
+	}
 }
 
 int findWinner(int player, int com) {
@@ -113,8 +158,8 @@ int check(int player[][5], int com[][5], int num) {
 				flag++;
 			}
 			if (flag == 2) {
-				playerBingo = countBingo(player);
-				comBingo = countBingo(com);
+				playerBingo = countBingo(player, 0);
+				comBingo = countBingo(com, 0);
 				if (findWinner(playerBingo, comBingo)) {
 					printf("\nPlayer: %d Bingo\n", playerBingo);
 					printf("Computer: %d Bingo\n\n", comBingo);
@@ -143,7 +188,23 @@ int returnComputerNum(int com[][5], int level) {
 		}
 	}
 
-	return A[rand() % length];
+	if (level == 0) {
+		return A[rand() % length];
+	}
+	else {
+		int maxBingo = 0, index = -1;
+		for (int i = 0; i < length; i++) {
+			if (maxBingo < countBingo(com, A[i])) {
+				index = i;
+			}
+		}
+		if (index == -1) {
+			return A[rand() % length];
+		}
+		else {
+			return A[index];
+		}
+	}
 }
 
 void printLog(int A[], int length) {
@@ -185,7 +246,7 @@ void playGame(int player[][5], int com[][5], int level) {
 				return;
 			}
 
-			num = returnComputerNum(com);
+			num = returnComputerNum(com, level);
 
 			playerBingo = check(player, com, num);
 
