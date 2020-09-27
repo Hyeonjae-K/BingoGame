@@ -2,3 +2,4 @@ BingoGame.vcxproj
 BingoGame.vcxproj.filters
 BingoGame.vcxproj.user
 Debug
+test.cpp
