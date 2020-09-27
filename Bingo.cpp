@@ -103,12 +103,29 @@ int checker(int player[][5], int com[][5], int num) {
 	}
 }
 
+int findWinner(int player, int com) {
+	if (player >= 5 || com >= 5) {
+		if (player == com) {
+			cout << "Draw" << endl;
+		}
+		else if (player > com) {
+			cout << "Player Win!" << endl;
+		}
+		else {
+			cout << "Computer Win!" << endl;
+		}
+		return 1;
+	}
+	return 0;
+}
+
 void startGame(int player[][5], int com[][5], int level) {
 	int num, bingop = 0, bingoc = 0;
 
 	while (1) {
+		system("cls");
 		printBoard(player);
-
+		printBoard(com);
 		cout << "Bingo: " << bingop << endl;
 		cout << "Enter the number(Enter 0 to exit): ";
 		cin >> num;
@@ -127,7 +144,9 @@ void startGame(int player[][5], int com[][5], int level) {
 			if (flag == 2) {
 				bingop = countBingo(player);
 				bingoc = countBingo(com);
-
+				if (findWinner(bingop, bingoc)) {
+					return;
+				}
 			}
 		}
 	}
@@ -158,8 +177,6 @@ void makeBoard(int A[][5]) {
 			cnt++;
 		}
 	}
-
-	mixBoard(A);
 }
 
 int main() {
@@ -168,7 +185,9 @@ int main() {
 	level = inputLevel();
 
 	makeBoard(player);
+	mixBoard(player);
 	makeBoard(computer);
+	mixBoard(computer);
 	startGame(player, computer, level);
 
 	return 0;
