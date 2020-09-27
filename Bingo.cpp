@@ -5,6 +5,21 @@
 
 using namespace std;
 
+int inputLevel() {
+	int level;
+
+	while (1) {
+		system("cls");
+		cout << "0: Easy Mode" << endl;
+		cout << "1: Hard Mode" << endl;
+		cout << "Enter the level(0 or 1): ";
+		cin >> level;
+		if (level == 0 || level == 1) {
+			return level;
+		}
+	}
+}
+
 void printBoard(int A[][5]) {
 	system("cls");
 
@@ -68,6 +83,19 @@ int countBingo(int A[][5]) {
 	return bingo;
 }
 
+int changeNumber(int A[][5], int num) {
+	for (int i = 0; i < 5; i++) {
+		for (int j = 0; j < 5; j++) {
+			if (A[i][j] == num) {
+				A[i][j] = 0;
+				return 1;
+			}
+		}
+	}
+
+	return 0;
+}
+
 void startGame(int A[][5]) {
 	int num, bingo = 0;
 
@@ -85,20 +113,9 @@ void startGame(int A[][5]) {
 			continue;
 		}
 		else {
-			int flag = 0;
-			
-			for (int i = 0; i < 5; i++) {
-				for (int j = 0; j < 5; j++) {
-					if (A[i][j] == num) {
-						A[i][j] = 0;
-						flag = 1;
-						break;
-					}
-				}
-				if (flag == 1) {
-					break;
-				}
-			}
+			int flag;
+
+			flag = changeNumber(A, num);
 
 			if (flag == 1) {
 				bingo = countBingo(A);
@@ -141,8 +158,10 @@ void makeBoard(int A[][5]) {
 }
 
 int main() {
-	int Board[5][5];
-	
+	int Board[5][5], level;
+
+	level = inputLevel();
+
 	makeBoard(Board);
 	startGame(Board);
 
