@@ -28,6 +28,7 @@ int countBingo(int A[][5]) {
 	for (int i = 0; i < 5; i++) {
 		column = 0;
 		row = 0;
+
  		for (int j = 0; j < 5; j++) {
 			if (A[i][j] == 0) {
 				column++;
@@ -36,6 +37,7 @@ int countBingo(int A[][5]) {
 				row++;
 			}
 		}
+
 		if (column == 5) {
 			bingo++;
 		}
@@ -46,6 +48,7 @@ int countBingo(int A[][5]) {
 
 	leftcross = 0;
 	rightcross = 0;
+
 	for (int i = 0; i < 5; i++) {
 		if (A[i][i] == 0) {
 			leftcross++;
@@ -70,9 +73,11 @@ void startGame(int A[][5]) {
 
 	while (1) {
 		printBoard(A);
+
 		cout << "Bingo: " << bingo << endl;
 		cout << "Enter the number(Enter 0 to exit): ";
 		cin >> num;
+
 		if (num == 0) {
 			return;
 		}
@@ -94,8 +99,13 @@ void startGame(int A[][5]) {
 					break;
 				}
 			}
+
 			if (flag == 1) {
 				bingo = countBingo(A);
+				if (bingo >= 5) {
+					cout << "Five Bingo!" << endl;
+					return;
+				}
 			}
 		}
 	}
@@ -107,6 +117,7 @@ void mixBoard(int A[][5]) {
 
 	for (int i = 0; i < 100; i++) {
 		int x1, y1, x2, y2;
+
 		x1 = rand() % 5;
 		y1 = rand() % 5;
 		x2 = rand() % 5;
