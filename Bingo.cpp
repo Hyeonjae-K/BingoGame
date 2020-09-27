@@ -40,8 +40,18 @@ void makeBoard() {
 		int temp;
 
 		SWAP(player[A1.a][A1.b], player[A1.c][A1.d], temp);
-		SWAP(player[A2.a][A2.b], player[A2.c][A2.d], temp);
+		SWAP(computer[A2.a][A2.b], computer[A2.c][A2.d], temp);
 	}
+}
+
+void printBoard(int A[][N]) {
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
+			printf("%3d", A[i][j]);
+		}
+		printf("\n");
+	}
+	printf("\n");
 }
 
 int main() {
@@ -49,6 +59,8 @@ int main() {
 
 	inputSize();
 	makeBoard();
+	printBoard(player);
+	printBoard(computer);
 
 	return 0;
 }
