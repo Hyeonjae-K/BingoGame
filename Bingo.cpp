@@ -21,8 +21,6 @@ int inputLevel() {
 }
 
 void printBoard(int A[][5]) {
-	system("cls");
-
 	for (int i = 0; i < 5; i++) {
 		for (int j = 0; j < 5; j++) {
 			if (A[i][j] == 0) {
@@ -83,28 +81,9 @@ int countBingo(int A[][5]) {
 	return bingo;
 }
 
-int check(int player[][5], int com[][5], int num) {
-	int flag = 0;
-
-	for (int i = 0; i < 5; i++) {
-		for (int j = 0; j < 5; j++) {
-			if (player[i][j] == num) {
-				player[i][j] = 0;
-				flag++;
-			}
-			if (com[i][j] == num) {
-				com[i][j] = 0;
-				flag++;
-			}
-			if (flag == 2) {
-				return flag;
-			}
-		}
-	}
-}
-
 int findWinner(int player, int com) {
 	if (player >= 5 || com >= 5) {
+		system("cls");
 		if (player == com) {
 			cout << "Draw" << endl;
 		}
@@ -119,12 +98,46 @@ int findWinner(int player, int com) {
 	return 0;
 }
 
+int check(int player[][5], int com[][5], int num) {
+	static int playerBingo;
+	int flag = 0, comBingo;
+
+	for (int i = 0; i < 5; i++) {
+		for (int j = 0; j < 5; j++) {
+			if (player[i][j] == num) {
+				player[i][j] = 0;
+				flag++;
+			}
+			if (com[i][j] == num) {
+				com[i][j] = 0;
+				flag++;
+			}
+			if (flag == 2) {
+				playerBingo = countBingo(player);
+				comBingo = countBingo(com);
+				if (findWinner(playerBingo, comBingo)) {
+					printf("\nPlayer: %d Bingo\n", playerBingo);
+					printf("Computer: %d Bingo\n\n", comBingo);
+					printf("Player's Board\n");
+					printBoard(player);
+					printf("Computer's Board\n");
+					printBoard(com);
+					return -1;
+				}
+			}
+		}
+	}
+
+	return playerBingo;
+}
+
 void startGame(int player[][5], int com[][5], int level) {
-	int num, bingop = 0, bingoc = 0;
+	int num, playerBingo = 0;
 
 	while (1) {
+		system("cls");
 		printBoard(player);
-		cout << "Bingo: " << bingop << endl;
+		cout << "Bingo: " << playerBingo << endl;
 		cout << "Enter the number(Enter 0 to exit): ";
 		cin >> num;
 
@@ -135,16 +148,9 @@ void startGame(int player[][5], int com[][5], int level) {
 			continue;
 		}
 		else {
-			int flag;
-
-			flag = check(player, com, num);
-
-			if (flag == 2) {
-				bingop = countBingo(player);
-				bingoc = countBingo(com);
-				if (findWinner(bingop, bingoc)) {
-					return;
-				}
+			playerBingo = check(player, com, num);
+			if (playerBingo == -1) {
+				return;
 			}
 		}
 	}
@@ -164,7 +170,6 @@ void mixBoard(int board[][5]) {
 }
 
 void makeBoard(int board[][5]) {
-	srand(time(NULL));
 	int cnt = 1;
 
 	for (int i = 0; i < 5; i++) {
@@ -177,8 +182,9 @@ void makeBoard(int board[][5]) {
 }
 
 int main() {
+	srand(time(NULL));
 	int computer[5][5], player[5][5], level;
-
+	
 	level = inputLevel();
 
 	makeBoard(player);
