@@ -131,6 +131,21 @@ int check(int player[][5], int com[][5], int num) {
 	return playerBingo;
 }
 
+int returnComputerNum(int com[][5]) {
+	int A[25] = { 0 }, length = 0;
+
+	for (int i = 0; i < 5; i++) {
+		for (int j = 0; j < 5; j++) {
+			if (com[i][j] != 0) {
+				A[length] = com[i][j];
+				length++;
+			}
+		}
+	}
+
+	return A[rand() % length];
+}
+
 void playGame(int player[][5], int com[][5], int level) {
 	int num, playerBingo = 0;
 
