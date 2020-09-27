@@ -46,9 +46,9 @@ int countBingo(int A[][5]) {
 			if (A[i][j] == 0) {
 				column++;
 			}
-			if (A[j][i] == 0) {
-				row++;
-			}
+if (A[j][i] == 0) {
+	row++;
+}
 		}
 
 		if (column == 5) {
@@ -146,16 +146,31 @@ int returnComputerNum(int com[][5]) {
 	return A[rand() % length];
 }
 
+void printLog(int A[], int length) {
+	for (int i = 0; i < length; i++) {
+		printf("%3d", A[i]);
+	}
+	printf("\n");
+}
+
 void playGame(int player[][5], int com[][5], int level) {
-	int num, playerBingo = 0;
+	int num, playerBingo = 0, playerLog[50] = { 0 }, comLog[50] = { 0 }, length = 0;
 
 	while (1) {
 		system("cls");
 		printBoard(player);
+		
+		cout << "Player log:";
+		printLog(playerLog, length);
+		cout << "Computer log:";
+		printLog(comLog, length);
+
 
 		cout << "Bingo: " << playerBingo << endl;
 		cout << "Enter the number(Enter 0 to exit): ";
 		cin >> num;
+
+		playerLog[length] = num;
 
 		if (num == 0) {
 			return;
@@ -169,6 +184,17 @@ void playGame(int player[][5], int com[][5], int level) {
 			if (playerBingo == -1) {
 				return;
 			}
+
+			num = returnComputerNum(com);
+
+			playerBingo = check(player, com, num);
+
+			if (playerBingo == -1) {
+				return;
+			}
+
+			comLog[length] = num;
+			length++;
 		}
 	}
 }
