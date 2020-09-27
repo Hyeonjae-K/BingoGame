@@ -158,7 +158,7 @@ int check(int player[][5], int com[][5], int num) {
 				flag++;
 			}
 			if (flag == 2) {
-				playerBingo = countBingo(player, 0);
+				playerBingo = countBingo(player, 0); 
 				comBingo = countBingo(com, 0);
 				if (findWinner(playerBingo, comBingo)) {
 					printf("\nPlayer: %d Bingo\n", playerBingo);
