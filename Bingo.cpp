@@ -83,26 +83,33 @@ int countBingo(int A[][5]) {
 	return bingo;
 }
 
-int changeNumber(int A[][5], int num) {
+int checker(int player[][5], int com[][5], int num) {
+	int flag = 0;
+
 	for (int i = 0; i < 5; i++) {
 		for (int j = 0; j < 5; j++) {
-			if (A[i][j] == num) {
-				A[i][j] = 0;
-				return 1;
+			if (player[i][j] == num) {
+				player[i][j] = 0;
+				flag++;
+			}
+			if (com[i][j] == num) {
+				com[i][j] = 0;
+				flag++;
+			}
+			if (flag == 2) {
+				return flag;
 			}
 		}
 	}
-
-	return 0;
 }
 
-void startGame(int A[][5]) {
-	int num, bingo = 0;
+void startGame(int player[][5], int com[][5], int level) {
+	int num, bingop = 0, bingoc = 0;
 
 	while (1) {
-		printBoard(A);
+		printBoard(player);
 
-		cout << "Bingo: " << bingo << endl;
+		cout << "Bingo: " << bingop << endl;
 		cout << "Enter the number(Enter 0 to exit): ";
 		cin >> num;
 
@@ -115,14 +122,12 @@ void startGame(int A[][5]) {
 		else {
 			int flag;
 
-			flag = changeNumber(A, num);
+			flag = checker(player, com, num);
 
-			if (flag == 1) {
-				bingo = countBingo(A);
-				if (bingo >= 5) {
-					cout << "Five Bingo!" << endl;
-					return;
-				}
+			if (flag == 2) {
+				bingop = countBingo(player);
+				bingoc = countBingo(com);
+
 			}
 		}
 	}
@@ -158,12 +163,13 @@ void makeBoard(int A[][5]) {
 }
 
 int main() {
-	int Board[5][5], level;
+	int computer[5][5], player[5][5], level;
 
 	level = inputLevel();
 
-	makeBoard(Board);
-	startGame(Board);
+	makeBoard(player);
+	makeBoard(computer);
+	startGame(player, computer, level);
 
 	return 0;
 }
