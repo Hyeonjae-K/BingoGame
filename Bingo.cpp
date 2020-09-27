@@ -46,9 +46,9 @@ int countBingo(int A[][5]) {
 			if (A[i][j] == 0) {
 				column++;
 			}
-if (A[j][i] == 0) {
-	row++;
-}
+			if (A[j][i] == 0) {
+				row++;
+			}
 		}
 
 		if (column == 5) {
@@ -131,7 +131,7 @@ int check(int player[][5], int com[][5], int num) {
 	return playerBingo;
 }
 
-int returnComputerNum(int com[][5]) {
+int returnComputerNum(int com[][5], int level) {
 	int A[25] = { 0 }, length = 0;
 
 	for (int i = 0; i < 5; i++) {
