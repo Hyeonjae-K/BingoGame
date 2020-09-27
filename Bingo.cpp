@@ -83,7 +83,7 @@ int countBingo(int A[][5]) {
 	return bingo;
 }
 
-int checker(int player[][5], int com[][5], int num) {
+int check(int player[][5], int com[][5], int num) {
 	int flag = 0;
 
 	for (int i = 0; i < 5; i++) {
@@ -137,7 +137,7 @@ void startGame(int player[][5], int com[][5], int level) {
 		else {
 			int flag;
 
-			flag = checker(player, com, num);
+			flag = check(player, com, num);
 
 			if (flag == 2) {
 				bingop = countBingo(player);
