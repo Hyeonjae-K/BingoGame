@@ -177,8 +177,6 @@ void makeBoard(int board[][5]) {
 			board[i][j] = cnt++;
 		}
 	}
-
-	mixBoard(board);
 }
 
 int main() {
@@ -188,7 +186,9 @@ int main() {
 	level = inputLevel();
 
 	makeBoard(player);
+	mixBoard(player);
 	makeBoard(computer);
+	mixBoard(computer);
 	startGame(player, computer, level);
 
 	return 0;
