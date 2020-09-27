@@ -22,11 +22,55 @@ void printBoard(int A[][5]) {
 	printf("\n");
 }
 
+int countBingo(int A[][5]) {
+	int bingo = 0, column, row, leftcross, rightcross;
+
+	for (int i = 0; i < 5; i++) {
+		column = 0;
+		row = 0;
+ 		for (int j = 0; j < 5; j++) {
+			if (A[i][j] == 0) {
+				column++;
+			}
+			if (A[j][i] == 0) {
+				row++;
+			}
+		}
+		if (column == 5) {
+			bingo++;
+		}
+		if (row == 5) {
+			bingo++;
+		}
+	}
+
+	leftcross = 0;
+	rightcross = 0;
+	for (int i = 0; i < 5; i++) {
+		if (A[i][i] == 0) {
+			leftcross++;
+		}
+		if (A[i][4 - i] == 0) {
+			rightcross++;
+		}
+	}
+
+	if (leftcross == 5) {
+		bingo++;
+	}
+	if (rightcross == 5) {
+		bingo++;
+	}
+
+	return bingo;
+}
+
 void startGame(int A[][5]) {
-	int num;
+	int num, bingo = 0;
 
 	while (1) {
 		printBoard(A);
+		cout << "Bingo: " << bingo << endl;
 		cout << "Enter the number(Enter 0 to exit): ";
 		cin >> num;
 		if (num == 0) {
@@ -50,7 +94,9 @@ void startGame(int A[][5]) {
 					break;
 				}
 			}
-			continue;
+			if (flag == 1) {
+				bingo = countBingo(A);
+			}
 		}
 	}
 }
