@@ -30,7 +30,7 @@ void makeBoard() {
 
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++) {
-			player[i][j] = cnt++;
+			player[i][j] = cnt;
 			computer[i][j] = cnt++;
 		}
 	}
