@@ -131,12 +131,13 @@ int check(int player[][5], int com[][5], int num) {
 	return playerBingo;
 }
 
-void startGame(int player[][5], int com[][5], int level) {
+void playGame(int player[][5], int com[][5], int level) {
 	int num, playerBingo = 0;
 
 	while (1) {
 		system("cls");
 		printBoard(player);
+
 		cout << "Bingo: " << playerBingo << endl;
 		cout << "Enter the number(Enter 0 to exit): ";
 		cin >> num;
@@ -149,6 +150,7 @@ void startGame(int player[][5], int com[][5], int level) {
 		}
 		else {
 			playerBingo = check(player, com, num);
+
 			if (playerBingo == -1) {
 				return;
 			}
@@ -189,7 +191,7 @@ int main() {
 	mixBoard(player);
 	makeBoard(computer);
 	mixBoard(computer);
-	startGame(player, computer, level);
+	playGame(player, computer, level);
 
 	return 0;
 }
