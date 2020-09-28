@@ -15,12 +15,6 @@ struct Random {
 	int d = rand();
 };
 
-struct Condition {
-	int size;
-	int level;
-	int bingo;
-};
-
 void swap(int* a, int* b) {
 	int t;
 	t = *a;
@@ -32,24 +26,24 @@ int main() {
 	srand(time(NULL));
 
 	struct Board player, computer;
-	struct Condition condition;
+	int size, bingo, level;
 
 	while (1) {
 		system("cls");
 		printf("Enter the size(3 <= size <= 10): ");
-		scanf("%d", &condition.size);
+		scanf("%d", &size);
 
-		if (3 <= condition.size && condition.size <= 10) {
+		if (3 <= size && size <= 10) {
 			break;
 		}
 	}
 
 	while (1) {
 		system("cls");
-		printf("Enter the number of bingo(1 <= bingo <= %d): ", condition.size * 2 + 2);
-		scanf("%d", &condition.bingo);
+		printf("Enter the number of bingo(1 <= bingo <= %d): ", size * 2 + 2);
+		scanf("%d", &bingo);
 
-		if (1 <= condition.bingo && condition.bingo <= condition.size * 2 + 2) {
+		if (1 <= bingo && bingo <= size * 2 + 2) {
 			break;
 		}
 	}
@@ -57,40 +51,47 @@ int main() {
 	while (1) {
 		system("cls");
 		printf("Enter the level(0: EASY, 1: NORMAL, 2: HARD): ");
-		scanf("%d", &condition.level);
+		scanf("%d", &level);
 
-		if (0 <= condition.level && condition.level <= 2) {
+		if (0 <= level && level <= 2) {
 			break;
 		}
 	}
 
 	int cnt = 1;
-	for (int i = 0; i < condition.size; i++) {
-		for (int j = 0; j < condition.size; j++) {
+	for (int i = 0; i < size; i++) {
+		for (int j = 0; j < size; j++) {
 			player.B[i][j] = cnt;
 			computer.B[i][j] = cnt;
 			cnt++;
 		}
 	}
 
-	for (int i = 0; i < condition.size * 20; i++) {
+	for (int i = 0; i < size * 20; i++) {
 		struct Random pRand, cRand;
 
-		swap(&player.B[pRand.a % condition.size][pRand.b % condition.size], &player.B[pRand.c % condition.size][pRand.d % condition.size]);
-		swap(&computer.B[cRand.a % condition.size][cRand.b % condition.size], &computer.B[cRand.c % condition.size][cRand.d % condition.size]);
+		swap(&player.B[pRand.a % size][pRand.b % size], &player.B[pRand.c % size][pRand.d % size]);
+		swap(&computer.B[cRand.a % size][cRand.b % size], &computer.B[cRand.c % size][cRand.d % size]);
 	}
 
 	int num;
 	while (1) {
 		system("cls");
 
-		for (int i = 0; i < condition.size; i++) {
-			for (int j = 0; j < condition.size; j++) {
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
 				printf("%3d", player.B[i][j]);
 			}
 			printf("\n");
 		}
 		printf("\n");
+
+		printf("Enter the number: ");
+		scanf("%d", &num);
+
+		if (1 <= num && num <= size * size) {
+
+		}
 	}
 
 	return 0;
