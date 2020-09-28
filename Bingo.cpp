@@ -31,10 +31,10 @@ void inputBingo() {
 	while (1) {
 		system("cls");
 
-		printf("Enter the number of bingo(1 <= bingo <= %d): ", size * 2 + 2);
+		printf("Enter the number of bingo(1 <= bingo <= %d): ", size * 2);
 		scanf("%d", &bingo);
 
-		if (0 < bingo && bingo < size * 2 + 3) {
+		if (0 < bingo && bingo < size * 2 + 1) {
 			return;
 		}
 	}
@@ -158,7 +158,7 @@ int check(int num) {
 }
 
 int findWinner(int playerBingo, int computerBingo) {
-	if (playerBingo == bingo || computerBingo == bingo) {
+	if (playerBingo >= bingo || computerBingo >= bingo) {
 		system("cls");
 
 		if (playerBingo == computerBingo) {
@@ -170,6 +170,7 @@ int findWinner(int playerBingo, int computerBingo) {
 		else {
 			printf("Computer Win!\n");
 		}
+		printf("\n");
 
 		printf("Player's Board\n");
 		printBoard(player);
