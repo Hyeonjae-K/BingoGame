@@ -89,8 +89,34 @@ int main() {
 		printf("Enter the number: ");
 		scanf("%d", &num);
 
-		if (1 <= num && num <= size * size) {
+		if (num == 0) {
+			return 0;
+		}
+		else if (1 <= num && num <= size * size) {
+			int cnt = 0;
 
+			for (int i = 0; i < size; i++) {
+				for (int j = 0; j < size; j++) {
+					if (player.B[i][j] == num) {
+						player.B[i][j] = 0;
+						cnt++;
+					}
+					if (computer.B[i][j] == num) {
+						computer.B[i][j] = 0;
+						cnt++;
+					}
+					if (cnt == 2) {
+						break;
+					}
+				}
+				if (cnt == 2) {
+					break;
+				}
+			}
+
+			if (cnt != 2) {
+				continue;
+			}
 		}
 	}
 
