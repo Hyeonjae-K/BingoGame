@@ -190,6 +190,8 @@ int playerTurn(int playerBingo) {
 	int num;
 
 	while (1) {
+		system("cls");
+
 		printBoard(player);
 
 		printf("Player Bingo: %d\n", playerBingo);
