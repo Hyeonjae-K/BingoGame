@@ -1,11 +1,11 @@
 #define _CRT_SECURE_NO_WARNINGS
-#define N 100
+#define N 10
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
 struct board {
-	int board[N][N] = { 0 };
+	int B[N][N] = { 0 };
 };
 
 struct random {
@@ -51,8 +51,8 @@ int main() {
 	int cnt = 1;
 	for (int i = 0; i < size; i++) {
 		for (int j = 0; j < size; j++) {
-			player.board[i][j] = cnt;
-			computer.board[i][j] = cnt;
+			player.B[i][j] = cnt;
+			computer.B[i][j] = cnt;
 			cnt++;
 		}
 	}
@@ -60,8 +60,8 @@ int main() {
 	for (int i = 0; i < size * 20; i++) {
 		struct random pRand, cRand;
 
-		swap(&player.board[pRand.a % size][pRand.b % size], &player.board[pRand.c % size][pRand.d % size]);
-		swap(&computer.board[cRand.a % size][cRand.b % size], &computer.board[cRand.c % size][cRand.d % size]);
+		swap(&player.B[pRand.a % size][pRand.b % size], &player.B[pRand.c % size][pRand.d % size]);
+		swap(&computer.B[cRand.a % size][cRand.b % size], &computer.B[cRand.c % size][cRand.d % size]);
 	}
 
 	return 0;
