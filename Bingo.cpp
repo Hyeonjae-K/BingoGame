@@ -253,6 +253,16 @@ int main() {
 
 					return 0;
 				}
+
+				if (level == 0) {
+
+				}
+				else if (level == 1) {
+
+				}
+				else {
+
+				}
 			}
 		}
 	}
