@@ -15,6 +15,14 @@ struct Random {
 	int d = rand();
 };
 
+struct Bingo {
+	int row = 0;
+	int column = 0;
+	int lefeCross = 0;
+	int rightCross = 0;
+	int bingo = 0;
+};
+
 void swap(int* a, int* b) {
 	int t;
 	t = *a;
@@ -86,7 +94,7 @@ int main() {
 		}
 		printf("\n");
 
-		printf("Enter the number: ");
+		printf("Enter the number(Enter 0 to exit): ");
 		scanf("%d", &num);
 
 		if (num == 0) {
@@ -109,13 +117,18 @@ int main() {
 						break;
 					}
 				}
+
 				if (cnt == 2) {
 					break;
 				}
 			}
 
-			if (cnt != 2) {
+			if (cnt == 0) {
 				continue;
+			}
+			else {
+				struct Bingo P, C;
+
 			}
 		}
 	}
