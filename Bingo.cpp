@@ -90,7 +90,12 @@ int main() {
 
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
-				printf("%3d", player.B[i][j]);
+				if (player.B[i][j] == 0) {
+					printf("  X");
+				}
+				else {
+					printf("%3d", player.B[i][j]);
+				}
 			}
 			printf("\n");
 		}
@@ -199,6 +204,54 @@ int main() {
 				}
 				if (c.rightCross == size) {
 					c.bingo++;
+				}
+
+				if (p.bingo >= bingo || c.bingo >= bingo) {
+					system("cls");
+
+					if (p.bingo == c.bingo) {
+						printf("Draw\n");
+					}
+					else if (p.bingo > c.bingo) {
+						printf("Player Win!\n");
+					}
+					else {
+						printf("Computer Win!\n");
+					}
+					printf("\n");
+
+					printf("Player's Board\n");
+					for (int i = 0; i < size; i++) {
+						for (int j = 0; j < size; j++) {
+							if (player.B[i][j] == 0) {
+								printf("  X");
+							}
+							else {
+								printf("%3d", player.B[i][j]);
+							}
+						}
+						printf("\n");
+					}
+					printf("\n");
+
+					printf("Computer's Board\n");
+					for (int i = 0; i < size; i++) {
+						for (int j = 0; j < size; j++) {
+							if (computer.B[i][j] == 0) {
+								printf("  X");
+							}
+							else {
+								printf("%3d", computer.B[i][j]);
+							}
+						}
+						printf("\n");
+					}
+					printf("\n");
+
+					printf("Player: %d Bingo\n", p.bingo);
+					printf("Computer: %d Bingo\n", c.bingo);
+
+					return 0;
 				}
 			}
 		}
