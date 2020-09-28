@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <time.h>
 
-int player[N][N], computer[N][N], size;
+int player[N][N], computer[N][N], size, bingo;
 
 struct randomNums {
 	int a = rand() % size;
@@ -16,10 +16,25 @@ struct randomNums {
 
 void inputSize() {
 	while (1) {
+		system("cls");
+
 		printf("Enter the Board size(3 <= size <= 10): ");
 		scanf("%d", &size);
 		
 		if (2 < size && size < 11) {
+			return;
+		}
+	}
+}
+
+void inputBingo() {
+	while (1) {
+		system("cls");
+
+		printf("Enter the number of bingo(1 <= bingo <= %d): ", size * 2 + 2);
+		scanf("%d", &bingo);
+
+		if (0 < bingo && bingo < size * 2 + 3) {
 			return;
 		}
 	}
@@ -58,9 +73,8 @@ int main() {
 	srand(time(NULL));
 
 	inputSize();
+	inputBingo();
 	makeBoard();
-	printBoard(player);
-	printBoard(computer);
 
 	return 0;
 }
