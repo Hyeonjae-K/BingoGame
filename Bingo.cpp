@@ -46,6 +46,16 @@ int main() {
 
 	while (1) {
 		system("cls");
+		printf("Enter the number of bingo(1 <= bingo <= %d): ", condition.size * 2 + 2);
+		scanf("%d", &condition.bingo);
+
+		if (1 <= condition.bingo && condition.bingo <= condition.size * 2 + 2) {
+			break;
+		}
+	}
+
+	while (1) {
+		system("cls");
 		printf("Enter the level(0: EASY, 1: NORMAL, 2: HARD): ");
 		scanf("%d", &condition.level);
 
@@ -68,6 +78,19 @@ int main() {
 
 		swap(&player.B[pRand.a % condition.size][pRand.b % condition.size], &player.B[pRand.c % condition.size][pRand.d % condition.size]);
 		swap(&computer.B[cRand.a % condition.size][cRand.b % condition.size], &computer.B[cRand.c % condition.size][cRand.d % condition.size]);
+	}
+
+	int num;
+	while (1) {
+		system("cls");
+
+		for (int i = 0; i < condition.size; i++) {
+			for (int j = 0; j < condition.size; j++) {
+				printf("%3d", player.B[i][j]);
+			}
+			printf("\n");
+		}
+		printf("\n");
 	}
 
 	return 0;
