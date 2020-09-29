@@ -82,9 +82,9 @@ int main() {
 		swap(&computer.B[cRand.a % size][cRand.b % size], &computer.B[cRand.c % size][cRand.d % size]);
 	}
 	
+	struct Bingo p, c;
+	int num;
 	while (1) {
-		struct Bingo p, c;
-		int num;
 
 		system("cls");
 
@@ -95,19 +95,6 @@ int main() {
 				}
 				else {
 					printf("%3d", player.B[i][j]);
-				}
-			}
-			printf("\n");
-		}
-		printf("\n");
-
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				if (computer.B[i][j] == 0) {
-					printf("  X");
-				}
-				else {
-					printf("%3d", computer.B[i][j]);
 				}
 			}
 			printf("\n");
@@ -452,7 +439,7 @@ int main() {
 					p.row = 0;
 					p.column = 0;
 					c.row = 0;
-					p.column = 0;
+					c.column = 0;
 
 					for (int j = 0; j < size; j++) {
 						if (player.B[i][j] == 0) {
