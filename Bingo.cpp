@@ -101,7 +101,20 @@ int main() {
 		}
 		printf("\n");
 
-		printf("Bingo: %d", p.bingo);
+		for (int i = 0; i < size; i++) {
+			for (int j = 0; j < size; j++) {
+				if (computer.B[i][j] == 0) {
+					printf("  X");
+				}
+				else {
+					printf("%3d", computer.B[i][j]);
+				}
+			}
+			printf("\n");
+		}
+		printf("\n");
+
+		printf("Bingo: %d\n", p.bingo);
 		printf("Enter the number(Enter 0 to exit): ");
 		scanf("%d", &num);
 
