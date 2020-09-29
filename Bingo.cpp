@@ -366,13 +366,13 @@ int main() {
 
 							for (int j = 0; j < size; j++) {
 								if (computer.B[i][j] == 0 || computer.B[i][j] == remainNums[k]) {
-									if (j == x) {
+									if (j == tx) {
 										sum++;
 									}
 									c.row++;
 								}
 								if (computer.B[j][i] == 0 || computer.B[j][i] == remainNums[k]) {
-									if (j == y) {
+									if (j == ty) {
 										sum++;
 									}
 									c.column++;
@@ -411,6 +411,143 @@ int main() {
 					else {
 						num = cNum;
 					}
+				}
+
+				cnt = 0;
+				for (int i = 0; i < size; i++) {
+					for (int j = 0; j < size; j++) {
+						if (player.B[i][j] == num) {
+							player.B[i][j] = 0;
+							cnt++;
+						}
+						if (computer.B[i][j] == num) {
+							computer.B[i][j] = 0;
+							cnt++;
+						}
+						if (cnt == 2) {
+							break;
+						}
+					}
+					if (cnt == 2) {
+						break;
+					}
+				}
+
+				p.bingo = 0;
+				c.bingo = 0;
+				for (int i = 0; i < size; i++) {
+					p.row = 0;
+					p.column = 0;
+					c.row = 0;
+					p.column = 0;
+
+					for (int j = 0; j < size; j++) {
+						if (player.B[i][j] == 0) {
+							p.row++;
+						}
+						if (player.B[j][i] == 0) {
+							p.column++;
+						}
+						if (computer.B[i][j] == 0) {
+							c.row++;
+						}
+						if (computer.B[j][i] == 0) {
+							c.column++;
+						}
+					}
+
+					if (p.row == size) {
+						p.bingo++;
+					}
+					if (p.column == size) {
+						p.bingo++;
+					}
+					if (c.row == size) {
+						c.bingo++;
+					}
+					if (c.column == size) {
+						c.bingo++;
+					}
+				}
+
+				p.leftCross = 0;
+				p.rightCross = 0;
+				c.leftCross = 0;
+				c.rightCross = 0;
+				for (int i = 0; i < size; i++) {
+					if (player.B[i][i] == 0) {
+						p.leftCross++;
+					}
+					if (player.B[i][size - i - 1] == 0) {
+						p.rightCross++;
+					}
+					if (computer.B[i][i] == 0) {
+						c.leftCross++;
+					}
+					if (computer.B[i][size - i - 1] == 0) {
+						c.rightCross++;
+					}
+				}
+
+				if (p.leftCross == size) {
+					p.bingo++;
+				}
+				if (p.rightCross == size) {
+					p.bingo++;
+				}
+				if (c.leftCross == size) {
+					c.bingo++;
+				}
+				if (c.rightCross == size) {
+					c.bingo++;
+				}
+
+				if (p.bingo >= bingo || c.bingo >= bingo) {
+					system("cls");
+
+					if (p.bingo == c.bingo) {
+						printf("Draw\n");
+					}
+					else if (p.bingo > c.bingo) {
+						printf("Player Win!\n");
+					}
+					else {
+						printf("Computer Win!\n");
+					}
+					printf("\n");
+
+					printf("Player's Board\n");
+					for (int i = 0; i < size; i++) {
+						for (int j = 0; j < size; j++) {
+							if (player.B[i][j] == 0) {
+								printf("  X");
+							}
+							else {
+								printf("%3d", player.B[i][j]);
+							}
+						}
+						printf("\n");
+					}
+					printf("\n");
+
+					printf("Computer's Board\n");
+					for (int i = 0; i < size; i++) {
+						for (int j = 0; j < size; j++) {
+							if (computer.B[i][j] == 0) {
+								printf("  X");
+							}
+							else {
+								printf("%3d", computer.B[i][j]);
+							}
+						}
+						printf("\n");
+					}
+					printf("\n");
+
+					printf("Player: %d Bingo\n", p.bingo);
+					printf("Computer: %d Bingo\n", c.bingo);
+
+					return 0;
 				}
 			}
 		}
