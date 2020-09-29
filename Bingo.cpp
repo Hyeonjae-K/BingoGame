@@ -254,13 +254,80 @@ int main() {
 					return 0;
 				}
 
-				if (level == 0) {
+				int remainNums[N * N] = { 0 }, length = 0;
+				for (int i = 0; i < size; i++) {
+					for (int j = 0; j < size; j++) {
+						if (computer.B[i][j] != 0) {
+							remainNums[length] = computer.B[i][j];
+							length++;
+						}
+					}
+				}
 
+				if (level == 0) {
+					num = remainNums[rand() % length];
 				}
 				else if (level == 1) {
+					int maxBingo = 0, cNum = 0;
 
+					for (int k = 0; k < length; k++) {
+						c.bingo = 0;
+
+						for (int i = 0; i < size; i++) {
+							c.row = 0;
+							c.column = 0;
+
+							for (int j = 0; j < size; j++) {
+								if (computer.B[i][j] == 0 || computer.B[i][j] == remainNums[k]) {
+									c.row++;
+								}
+								if (computer.B[j][i] == 0 || computer.B[j][i] == remainNums[k]) {
+									c.column++;
+								}
+							}
+
+							if (c.row == size) {
+								c.bingo++;
+							}
+							if (c.column == size) {
+								c.bingo++;
+							}
+						}
+
+						c.leftCross = 0;
+						c.rightCross = 0;
+						for (int i = 0; i < size; i++) {
+							if (computer.B[i][i] == 0 || computer.B[i][i] == remainNums[k]) {
+								c.leftCross++;
+							}
+							if (computer.B[i][size - i - 1] == 0 || computer.B[i][size - i - 1] == 0) {
+								c.rightCross++;
+							}
+						}
+
+						if (c.leftCross == size) {
+							c.bingo++;
+						}
+						if (c.rightCross == size) {
+							c.bingo++;
+						}
+
+						if (c.bingo > maxBingo) {
+							maxBingo = c.bingo;
+							cNum = remainNums[k];
+						}
+					}
+
+					if (cNum == 0) {
+						num = remainNums[rand() % length];
+					}
+					else {
+						num = cNum;
+					}
 				}
 				else {
+					int maxBingo = 0, cNum = 0;
+
 
 				}
 			}
