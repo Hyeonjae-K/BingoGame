@@ -326,9 +326,91 @@ int main() {
 					}
 				}
 				else {
-					int maxBingo = 0, cNum = 0;
+					int maxBingo = 0, cNum = 0, maxSum = 0, x, y;
 
+					for (int k = 0; k < length; k++) {
+						int flag = 0, sum = 0, tx, ty;
 
+						for (int i = 0; i < size; i++) {
+							for (int j = 0; j < size; j++) {
+								if (computer.B[i][j] == remainNums[k]) {
+									ty = i;
+									tx = j;
+									flag = 1;
+									break;
+								}
+							}
+
+							if (flag != 0) {
+								break;
+							}
+						}
+
+						c.bingo = 0;
+						c.leftCross = 0;
+						c.rightCross = 0;
+						for (int i = 0; i < size; i++) {
+							if (computer.B[i][i] == 0 || computer.B[i][i] == remainNums[k]) {
+								c.leftCross++;
+							}
+							if (computer.B[i][size - i - 1] == 0 || computer.B[i][size - i - 1] == remainNums[k]) {
+								c.rightCross++;
+							}
+						}
+						sum += c.leftCross;
+						sum += c.rightCross;
+
+						for (int i = 0; i < size; i++) {
+							c.row = 0;
+							c.column = 0;
+
+							for (int j = 0; j < size; j++) {
+								if (computer.B[i][j] == 0 || computer.B[i][j] == remainNums[k]) {
+									if (j == x) {
+										sum++;
+									}
+									c.row++;
+								}
+								if (computer.B[j][i] == 0 || computer.B[j][i] == remainNums[k]) {
+									if (j == y) {
+										sum++;
+									}
+									c.column++;
+								}
+							}
+
+							if (c.row == size) {
+								c.bingo++;
+							}
+							if (c.column == size) {
+								c.bingo++;
+							}
+							if (c.leftCross == size) {
+								c.bingo++;
+							}
+							if (c.rightCross == size) {
+								c.bingo++;
+							}
+							if (c.bingo == 0) {
+								if (maxSum < sum) {
+									maxSum = sum;
+									y = ty;
+									x = tx;
+								}
+							}
+							if (c.bingo > maxBingo) {
+								maxBingo = c.bingo;
+								cNum = remainNums[k];
+							}
+						}
+					}
+
+					if (maxBingo == 0) {
+						num = computer.B[y][x];
+					}
+					else {
+						num = cNum;
+					}
 				}
 			}
 		}
