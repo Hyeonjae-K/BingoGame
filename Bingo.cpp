@@ -222,6 +222,10 @@ int findWinner(Bingo bingo) {
 		printBoard(board.player);
 		printf("Computer's Board\n");
 		printBoard(board.computer);
+		printf("\n");
+
+		printf("Player: %d Bingo\n", bingo.pBingo);
+		printf("Computer: %d Bingo\n", bingo.cBingo);
 
 		return 1;
 	}
@@ -248,10 +252,19 @@ int main() {
 			return 0;
 		}
 		else {
-			if (check(num) == 0) {
+			if (check(num)) {
+				bingo = findBingo();
+
+				if (findWinner(bingo)) {
+					return 0;
+				}
+				else {
+
+				}
+			}
+			else {
 				continue;
 			}
-			bingo = findBingo();
 		}
 
 
