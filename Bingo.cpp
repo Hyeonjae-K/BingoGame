@@ -7,13 +7,13 @@
 struct Board {
 	int player[N][N] = { 0 };
 	int computer[N][N] = { 0 };
-};
+}board;
 
 struct Condition {
 	int size = 0;
 	int bingo = 0;
 	int level = 0;
-};
+}condition;
 
 struct Random {
 	int a = rand();
@@ -37,9 +37,7 @@ void swap(int* a, int* b) {
 	*b = t;
 }
 
-Condition inputCondition() {
-	struct Condition condition;
-
+void inputCondition() {
 	while (1) {
 		system("cls");
 		printf("Enter the size(3 <= size <= 10): ");
@@ -69,13 +67,10 @@ Condition inputCondition() {
 			break;
 		}
 	}
-
-	return condition;
 }
 
-Board makeBoard(struct Condition condition) {
-	struct Board board;
-	int cnt;
+void makeBoard() {
+	int cnt = 0, n = condition.size;
 
 	for (int i = 0; i < condition.size; i++) {
 		for (int j = 0; j < condition.size; j++) {
@@ -87,23 +82,21 @@ Board makeBoard(struct Condition condition) {
 
 	for (int i = 0; i < condition.size * 20; i++) {
 		struct Random pRand, cRand;
-		int n = condition.size;
 
 		swap(&board.player[pRand.a % n][pRand.b % n], &board.player[pRand.c % n][pRand.d % n]);
 		swap(&board.computer[cRand.a % n][cRand.b % n], &board.computer[cRand.c % n][cRand.d % n]);
 	}
+}
 
-	return board;
+void printBoard(int A[N][N]) {
+	
 }
 
 int main() {
 	srand(time(NULL));
 
-	struct Board board;
-	struct Condition condition;
-
-	condition = inputCondition();
-	board = makeBoard(condition);
+	inputCondition();
+	makeBoard();
 	
 	struct Bingo p, c;
 	int num;
