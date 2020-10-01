@@ -149,15 +149,15 @@ Bingo findBingo() {
 			if (board.player[i][j] == 0) {
 				bingo.pRow++;
 			}
-			if (board.player[j][i] == 0) {
-				bingo.pColumn++;
-			}
-			if (board.computer[i][j] == 0) {
-				bingo.cRow++;
-			}
-			if (board.computer[j][i] == 0) {
-				bingo.cColumn++;
-			}
+if (board.player[j][i] == 0) {
+	bingo.pColumn++;
+}
+if (board.computer[i][j] == 0) {
+	bingo.cRow++;
+}
+if (board.computer[j][i] == 0) {
+	bingo.cColumn++;
+}
 		}
 
 		if (bingo.pRow == condition.size) {
@@ -205,6 +205,67 @@ Bingo findBingo() {
 	return bingo;
 }
 
+int easyMode(int A[], int length) {
+	return A[rand() % length];
+}
+
+int normalMode(int A[], int length) {
+	int maxBingo = 0, num = 0;
+
+	for (int k = 0; k < length; k++) {
+		struct Bingo bingo;
+
+		for (int i = 0; i < condition.size; i++) {
+			bingo.cRow = 0;
+			bingo.cColumn = 0;
+
+			for (int j = 0; j < condition.size; j++) {
+				if (board.computer[i][j] == 0 || board.computer[i][j] == A[k]) {
+					bingo.cRow++;
+				}
+				if (board.computer[j][i] == 0 || board.computer[j][i] == A[k]) {
+					bingo.cColumn++;
+				}
+			}
+
+			if (bingo.cRow == condition.size) {
+				bingo.cBingo++;
+			}
+			if (bingo.cColumn == condition.size) {
+				bingo.cBingo++;
+			}
+		}
+
+		for (int i = 0; i < condition.size; i++) {
+			if (board.computer[i][i] == 0 || board.computer[i][i] == A[k]) {
+				bingo.cLeftCross++;
+			}
+			if (board.computer[i][condition.size - i - 1] == 0 || board.computer[i][condition.size - i - 1] == A[k]) {
+				bingo.cRightCross++;
+			}
+		}
+
+		if (bingo.cLeftCross == condition.size) {
+			bingo.cBingo++;
+		}
+		if (bingo.cRightCross == condition.size) {
+			bingo.cBingo++;
+		}
+
+		if (maxBingo < bingo.cBingo) {
+			maxBingo = bingo.cBingo;
+			num = A[k];
+		}
+	}
+
+	if (num != 0) {
+		return num;
+	}
+	else {
+		return easyMode(A, length);
+	}
+}
+
 int findWinner(Bingo bingo) {
 	if (bingo.pBingo >= condition.bingo || bingo.cBingo >= condition.bingo) {
 		if (bingo.pBingo == bingo.cBingo) {
@@ -233,6 +294,29 @@ int findWinner(Bingo bingo) {
 	return 0;
 }
 
+void computerTurn() {
+	int remainNums[N * N] = { 0 }, length = 0, num;
+
+	for (int i = 0; i < condition.size; i++) {
+		for (int j = 0; j < condition.size; j++) {
+			if (board.computer[i][j] != 0) {
+				remainNums[length];
+				length++;
+			}
+		}
+	}
+
+	if (condition.level == 0) {
+		num = easyMode(remainNums, length);
+	}
+	else if (condition.level == 1) {
+
+	}
+	else {
+
+	}
+}
+
 int main() {
 	srand(time(NULL));
 
@@ -259,7 +343,7 @@ int main() {
 					return 0;
 				}
 				else {
-
+					computerTurn();
 				}
 			}
 			else {
