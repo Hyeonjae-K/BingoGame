@@ -136,7 +136,7 @@ int check(int num) {
 	return 0;
 }
 
-Bingo findBingo(int num) {
+Bingo findBingo() {
 	struct Bingo bingo;
 
 	for (int i = 0; i < condition.size; i++) {
@@ -146,16 +146,16 @@ Bingo findBingo(int num) {
 		bingo.cColumn = 0;
 
 		for (int j = 0; j < condition.size; j++) {
-			if (board.player[i][j] == 0 || board.player[i][j] == num) {
+			if (board.player[i][j] == 0) {
 				bingo.pRow++;
 			}
-			if (board.player[j][i] == 0 || board.player[j][i] == num) {
+			if (board.player[j][i] == 0) {
 				bingo.pColumn++;
 			}
-			if (board.computer[i][j] == 0 || board.computer[i][j] == num) {
+			if (board.computer[i][j] == 0) {
 				bingo.cRow++;
 			}
-			if (board.computer[j][i] == 0 || board.computer[j][i] == num) {
+			if (board.computer[j][i] == 0) {
 				bingo.cColumn++;
 			}
 		}
@@ -175,16 +175,16 @@ Bingo findBingo(int num) {
 	}
 
 	for (int i = 0; i < condition.size; i++) {
-		if (board.player[i][i] == 0 || board.player[i][i] == num) {
+		if (board.player[i][i] == 0) {
 			bingo.pLeftCross++;
 		}
-		if (board.player[i][condition.size - i - 1] == 0 || board.player[i][condition.size - i - 1] == num) {
+		if (board.player[i][condition.size - i - 1] == 0) {
 			bingo.pRightCross++;
 		}
-		if (board.computer[i][i] == 0 || board.computer[i][i] == num) {
+		if (board.computer[i][i] == 0) {
 			bingo.cLeftCross++;
 		}
-		if (board.computer[i][condition.size - i - 1] == 0 || board.computer[i][condition.size - i - 1] == num) {
+		if (board.computer[i][condition.size - i - 1] == 0) {
 			bingo.cRightCross++;
 		}
 	}
@@ -203,6 +203,30 @@ Bingo findBingo(int num) {
 	}
 
 	return bingo;
+}
+
+int findWinner(Bingo bingo) {
+	if (bingo.pBingo >= condition.bingo || bingo.cBingo >= condition.bingo) {
+		if (bingo.pBingo == bingo.cBingo) {
+			printf("Draw\n");
+		}
+		else if (bingo.pBingo > bingo.cBingo) {
+			printf("Player Win\n");
+		}
+		else {
+			printf("Computer Win\n");
+		}
+		printf("\n");
+
+		printf("Player's Board\n");
+		printBoard(board.player);
+		printf("Computer's Board\n");
+		printBoard(board.computer);
+
+		return 1;
+	}
+
+	return 0;
 }
 
 int main() {
@@ -227,7 +251,7 @@ int main() {
 			if (check(num) == 0) {
 				continue;
 			}
-
+			bingo = findBingo();
 		}
 
 
