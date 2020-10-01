@@ -5,7 +5,14 @@
 #include <time.h>
 
 struct Board {
-	int B[N][N] = { 0 };
+	int player[N][N] = { 0 };
+	int computer[N][N] = { 0 };
+};
+
+struct Condition {
+	int size = 0;
+	int bingo = 0;
+	int level = 0;
 };
 
 struct Random {
@@ -30,28 +37,25 @@ void swap(int* a, int* b) {
 	*b = t;
 }
 
-int main() {
-	srand(time(NULL));
-
-	struct Board player, computer;
-	int size, bingo, level;
+Condition inputCondition() {
+	struct Condition condition;
 
 	while (1) {
 		system("cls");
 		printf("Enter the size(3 <= size <= 10): ");
-		scanf("%d", &size);
+		scanf("%d", &condition.size);
 
-		if (3 <= size && size <= 10) {
+		if (3 <= condition.size && condition.size <= 10) {
 			break;
 		}
 	}
 
 	while (1) {
 		system("cls");
-		printf("Enter the number of bingo(1 <= bingo <= %d): ", size * 2 + 2);
-		scanf("%d", &bingo);
+		printf("Enter the number of bingo(1 <= bingo <= %d): ", condition.size * 2 + 2);
+		scanf("%d", &condition.bingo);
 
-		if (1 <= bingo && bingo <= size * 2 + 2) {
+		if (1 <= condition.bingo && condition.bingo <= condition.size * 2 + 2) {
 			break;
 		}
 	}
@@ -59,28 +63,47 @@ int main() {
 	while (1) {
 		system("cls");
 		printf("Enter the level(0: EASY, 1: NORMAL, 2: HARD): ");
-		scanf("%d", &level);
+		scanf("%d", &condition.level);
 
-		if (0 <= level && level <= 2) {
+		if (0 <= condition.level && condition.level <= 2) {
 			break;
 		}
 	}
 
-	int cnt = 1;
-	for (int i = 0; i < size; i++) {
-		for (int j = 0; j < size; j++) {
-			player.B[i][j] = cnt;
-			computer.B[i][j] = cnt;
+	return condition;
+}
+
+Board makeBoard(struct Condition condition) {
+	struct Board board;
+	int cnt;
+
+	for (int i = 0; i < condition.size; i++) {
+		for (int j = 0; j < condition.size; j++) {
+			board.player[i][j] = cnt;
+			board.computer[i][j] = cnt;
 			cnt++;
 		}
 	}
 
-	for (int i = 0; i < size * 20; i++) {
+	for (int i = 0; i < condition.size * 20; i++) {
 		struct Random pRand, cRand;
+		int n = condition.size;
 
-		swap(&player.B[pRand.a % size][pRand.b % size], &player.B[pRand.c % size][pRand.d % size]);
-		swap(&computer.B[cRand.a % size][cRand.b % size], &computer.B[cRand.c % size][cRand.d % size]);
+		swap(&board.player[pRand.a % n][pRand.b % n], &board.player[pRand.c % n][pRand.d % n]);
+		swap(&board.computer[cRand.a % n][cRand.b % n], &board.computer[cRand.c % n][cRand.d % n]);
 	}
+
+	return board;
+}
+
+int main() {
+	srand(time(NULL));
+
+	struct Board board;
+	struct Condition condition;
+
+	condition = inputCondition();
+	board = makeBoard(condition);
 	
 	struct Bingo p, c;
 	int num;
@@ -90,11 +113,11 @@ int main() {
 
 		for (int i = 0; i < size; i++) {
 			for (int j = 0; j < size; j++) {
-				if (player.B[i][j] == 0) {
+				if (B.player[i][j] == 0) {
 					printf("  X");
 				}
 				else {
-					printf("%3d", player.B[i][j]);
+					printf("%3d", B.player[i][j]);
 				}
 			}
 			printf("\n");
@@ -113,12 +136,12 @@ int main() {
 
 			for (int i = 0; i < size; i++) {
 				for (int j = 0; j < size; j++) {
-					if (player.B[i][j] == num) {
-						player.B[i][j] = 0;
+					if (B.player[i][j] == num) {
+						B.player[i][j] = 0;
 						cnt++;
 					}
-					if (computer.B[i][j] == num) {
-						computer.B[i][j] = 0;
+					if (B.computer[i][j] == num) {
+						B.computer[i][j] = 0;
 						cnt++;
 					}
 					if (cnt == 2) {
@@ -145,16 +168,16 @@ int main() {
 					c.column = 0;
 
 					for (int j = 0; j < size; j++) {
-						if (player.B[i][j] == 0) {
+						if (B.player[i][j] == 0) {
 							p.row++;
 						}
-						if (player.B[j][i] == 0) {
+						if (B.player[j][i] == 0) {
 							p.column++;
 						}
-						if (computer.B[i][j] == 0) {
+						if (B.computer[i][j] == 0) {
 							c.row++;
 						}
-						if (computer.B[j][i] == 0) {
+						if (B.computer[j][i] == 0) {
 							c.column++;
 						}
 					}
@@ -179,16 +202,16 @@ int main() {
 				c.rightCross = 0;
 
 				for (int i = 0; i < size; i++) {
-					if (player.B[i][i] == 0) {
+					if (B.player[i][i] == 0) {
 						p.leftCross++;
 					}
-					if (player.B[i][size - i - 1] == 0) {
+					if (B.player[i][size - i - 1] == 0) {
 						p.rightCross++;
 					}
-					if (computer.B[i][i] == 0) {
+					if (B.computer[i][i] == 0) {
 						c.leftCross++;
 					}
-					if (computer.B[i][size - i - 1] == 0) {
+					if (B.computer[i][size - i - 1] == 0) {
 						c.rightCross++;
 					}
 				}
@@ -223,11 +246,11 @@ int main() {
 					printf("Player's Board\n");
 					for (int i = 0; i < size; i++) {
 						for (int j = 0; j < size; j++) {
-							if (player.B[i][j] == 0) {
+							if (B.player[i][j] == 0) {
 								printf("  X");
 							}
 							else {
-								printf("%3d", player.B[i][j]);
+								printf("%3d", B.player[i][j]);
 							}
 						}
 						printf("\n");
@@ -237,11 +260,11 @@ int main() {
 					printf("Computer's Board\n");
 					for (int i = 0; i < size; i++) {
 						for (int j = 0; j < size; j++) {
-							if (computer.B[i][j] == 0) {
+							if (B.computer[i][j] == 0) {
 								printf("  X");
 							}
 							else {
-								printf("%3d", computer.B[i][j]);
+								printf("%3d", B.computer[i][j]);
 							}
 						}
 						printf("\n");
@@ -257,8 +280,8 @@ int main() {
 				int remainNums[N * N] = { 0 }, length = 0;
 				for (int i = 0; i < size; i++) {
 					for (int j = 0; j < size; j++) {
-						if (computer.B[i][j] != 0) {
-							remainNums[length] = computer.B[i][j];
+						if (B.computer[i][j] != 0) {
+							remainNums[length] = B.computer[i][j];
 							length++;
 						}
 					}
@@ -278,10 +301,10 @@ int main() {
 							c.column = 0;
 
 							for (int j = 0; j < size; j++) {
-								if (computer.B[i][j] == 0 || computer.B[i][j] == remainNums[k]) {
+								if (B.computer[i][j] == 0 || B.computer[i][j] == remainNums[k]) {
 									c.row++;
 								}
-								if (computer.B[j][i] == 0 || computer.B[j][i] == remainNums[k]) {
+								if (B.computer[j][i] == 0 || B.computer[j][i] == remainNums[k]) {
 									c.column++;
 								}
 							}
@@ -297,10 +320,10 @@ int main() {
 						c.leftCross = 0;
 						c.rightCross = 0;
 						for (int i = 0; i < size; i++) {
-							if (computer.B[i][i] == 0 || computer.B[i][i] == remainNums[k]) {
+							if (B.computer[i][i] == 0 || B.computer[i][i] == remainNums[k]) {
 								c.leftCross++;
 							}
-							if (computer.B[i][size - i - 1] == 0 || computer.B[i][size - i - 1] == 0) {
+							if (B.computer[i][size - i - 1] == 0 || B.computer[i][size - i - 1] == 0) {
 								c.rightCross++;
 							}
 						}
@@ -333,7 +356,7 @@ int main() {
 
 						for (int i = 0; i < size; i++) {
 							for (int j = 0; j < size; j++) {
-								if (computer.B[i][j] == remainNums[k]) {
+								if (B.computer[i][j] == remainNums[k]) {
 									ty = i;
 									tx = j;
 									flag = 1;
@@ -350,10 +373,10 @@ int main() {
 						c.leftCross = 0;
 						c.rightCross = 0;
 						for (int i = 0; i < size; i++) {
-							if (computer.B[i][i] == 0 || computer.B[i][i] == remainNums[k]) {
+							if (B.computer[i][i] == 0 || B.computer[i][i] == remainNums[k]) {
 								c.leftCross++;
 							}
-							if (computer.B[i][size - i - 1] == 0 || computer.B[i][size - i - 1] == remainNums[k]) {
+							if (B.computer[i][size - i - 1] == 0 || B.computer[i][size - i - 1] == remainNums[k]) {
 								c.rightCross++;
 							}
 						}
@@ -365,13 +388,13 @@ int main() {
 							c.column = 0;
 
 							for (int j = 0; j < size; j++) {
-								if (computer.B[i][j] == 0 || computer.B[i][j] == remainNums[k]) {
+								if (B.computer[i][j] == 0 || B.computer[i][j] == remainNums[k]) {
 									if (j == tx) {
 										sum++;
 									}
 									c.row++;
 								}
-								if (computer.B[j][i] == 0 || computer.B[j][i] == remainNums[k]) {
+								if (B.computer[j][i] == 0 || B.computer[j][i] == remainNums[k]) {
 									if (j == ty) {
 										sum++;
 									}
@@ -406,7 +429,7 @@ int main() {
 					}
 
 					if (maxBingo == 0) {
-						num = computer.B[y][x];
+						num = B.computer[y][x];
 					}
 					else {
 						num = cNum;
@@ -416,12 +439,12 @@ int main() {
 				cnt = 0;
 				for (int i = 0; i < size; i++) {
 					for (int j = 0; j < size; j++) {
-						if (player.B[i][j] == num) {
-							player.B[i][j] = 0;
+						if (B.player[i][j] == num) {
+							B.player[i][j] = 0;
 							cnt++;
 						}
-						if (computer.B[i][j] == num) {
-							computer.B[i][j] = 0;
+						if (B.computer[i][j] == num) {
+							B.computer[i][j] = 0;
 							cnt++;
 						}
 						if (cnt == 2) {
@@ -442,16 +465,16 @@ int main() {
 					c.column = 0;
 
 					for (int j = 0; j < size; j++) {
-						if (player.B[i][j] == 0) {
+						if (B.player[i][j] == 0) {
 							p.row++;
 						}
-						if (player.B[j][i] == 0) {
+						if (B.player[j][i] == 0) {
 							p.column++;
 						}
-						if (computer.B[i][j] == 0) {
+						if (B.computer[i][j] == 0) {
 							c.row++;
 						}
-						if (computer.B[j][i] == 0) {
+						if (B.computer[j][i] == 0) {
 							c.column++;
 						}
 					}
@@ -475,16 +498,16 @@ int main() {
 				c.leftCross = 0;
 				c.rightCross = 0;
 				for (int i = 0; i < size; i++) {
-					if (player.B[i][i] == 0) {
+					if (B.player[i][i] == 0) {
 						p.leftCross++;
 					}
-					if (player.B[i][size - i - 1] == 0) {
+					if (B.player[i][size - i - 1] == 0) {
 						p.rightCross++;
 					}
-					if (computer.B[i][i] == 0) {
+					if (B.computer[i][i] == 0) {
 						c.leftCross++;
 					}
-					if (computer.B[i][size - i - 1] == 0) {
+					if (B.computer[i][size - i - 1] == 0) {
 						c.rightCross++;
 					}
 				}
@@ -519,11 +542,11 @@ int main() {
 					printf("Player's Board\n");
 					for (int i = 0; i < size; i++) {
 						for (int j = 0; j < size; j++) {
-							if (player.B[i][j] == 0) {
+							if (B.player[i][j] == 0) {
 								printf("  X");
 							}
 							else {
-								printf("%3d", player.B[i][j]);
+								printf("%3d", B.player[i][j]);
 							}
 						}
 						printf("\n");
@@ -533,11 +556,11 @@ int main() {
 					printf("Computer's Board\n");
 					for (int i = 0; i < size; i++) {
 						for (int j = 0; j < size; j++) {
-							if (computer.B[i][j] == 0) {
+							if (B.computer[i][j] == 0) {
 								printf("  X");
 							}
 							else {
-								printf("%3d", computer.B[i][j]);
+								printf("%3d", B.computer[i][j]);
 							}
 						}
 						printf("\n");
