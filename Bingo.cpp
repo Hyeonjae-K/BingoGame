@@ -163,10 +163,10 @@ Bingo findBingo() {
 		if (bingo.pRow == condition.size) {
 			bingo.pBingo++;
 		}
-		if (bingo.cColumn == condition.size) {
+		if (bingo.pColumn == condition.size) {
 			bingo.pBingo++;
 		}
-		if (bingo.pRow == condition.size) {
+		if (bingo.cRow == condition.size) {
 			bingo.cBingo++;
 		}
 		if (bingo.cColumn == condition.size) {
@@ -303,6 +303,8 @@ int hardMode(int A[], int length) {
 
 int findWinner(Bingo bingo) {
 	if (bingo.pBingo >= condition.bingo || bingo.cBingo >= condition.bingo) {
+		system("cls");
+
 		if (bingo.pBingo == bingo.cBingo) {
 			printf("Draw\n");
 		}
@@ -335,7 +337,7 @@ void computerTurn() {
 	for (int i = 0; i < condition.size; i++) {
 		for (int j = 0; j < condition.size; j++) {
 			if (board.computer[i][j] != 0) {
-				remainNums[length];
+				remainNums[length] = board.computer[i][j];
 				length++;
 			}
 		}
@@ -388,6 +390,8 @@ int main() {
 			}
 
 			computerTurn();
+			bingo = findBingo();
+
 			if (findWinner(bingo)) {
 				return 0;
 			}
