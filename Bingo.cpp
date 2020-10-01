@@ -205,11 +205,7 @@ if (board.computer[j][i] == 0) {
 	return bingo;
 }
 
-int easyMode(int A[], int length) {
-	return A[rand() % length];
-}
-
-int normalMode(int A[], int length) {
+void normalMode(int A[], int length) {
 	int maxBingo = 0, num = 0;
 
 	for (int k = 0; k < length; k++) {
@@ -259,11 +255,15 @@ int normalMode(int A[], int length) {
 	}
 
 	if (num != 0) {
-		return num;
+		check(num);
 	}
 	else {
-		return easyMode(A, length);
+		check(A[rand() % length]);
 	}
+}
+
+void hardMode(int A[], int length) {
+
 }
 
 int findWinner(Bingo bingo) {
@@ -307,13 +307,13 @@ void computerTurn() {
 	}
 
 	if (condition.level == 0) {
-		num = easyMode(remainNums, length);
+		check(remainNums[rand() % length]);
 	}
 	else if (condition.level == 1) {
-
+		normalMode(remainNums, length);
 	}
 	else {
-
+		hardMode(remainNums, length);
 	}
 }
 
