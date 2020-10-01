@@ -89,7 +89,54 @@ void makeBoard() {
 }
 
 void printBoard(int A[N][N]) {
+	for (int i = 0; i < condition.size; i++) {
+		for (int j = 0; j < condition.size; j++) {
+			if (A[i][j] == 0) {
+				printf("  X");
+			}
+			else {
+				printf("%3d", A[i][j]);
+			}
+		}
+		printf("\n");
+	}
+	printf("\n");
+}
+
+int playerTurn(int bingo) {
+	int num;
 	
+	printf("Bingo: %d\n", bingo);
+	printf("Enter the number(Enter 0 to exit): ");
+	scanf("%d", &num);
+
+	return num;
+}
+
+int check(int num) {
+	int cnt = 0;
+
+	if (num < 1 || condition.size < num) {
+		return 0;
+	}
+
+	for (int i = 0; i < condition.size; i++) {
+		for (int j = 0; j < condition.size; j++) {
+			if (board.player[i][j] == num) {
+				board.player[i][j] = 0;
+				cnt++;
+			}
+			if (board.computer[i][j] == num) {
+				board.computer[i][j] = 0;
+				cnt++;
+			}
+			if (cnt == 2) {
+				return 1;
+			}
+		}
+	}
+
+	return 0;
 }
 
 int main() {
@@ -101,29 +148,22 @@ int main() {
 	struct Bingo p, c;
 	int num;
 	while (1) {
-
 		system("cls");
 
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				if (B.player[i][j] == 0) {
-					printf("  X");
-				}
-				else {
-					printf("%3d", B.player[i][j]);
-				}
-			}
-			printf("\n");
-		}
-		printf("\n");
+		printBoard(board.player);
 
-		printf("Bingo: %d\n", p.bingo);
-		printf("Enter the number(Enter 0 to exit): ");
-		scanf("%d", &num);
+		num = playerTurn(p.bingo);
 
 		if (num == 0) {
 			return 0;
 		}
+		else {
+			if (check(num) == 0) {
+				continue;
+			}
+
+		}
+
 		else if (1 <= num && num <= size * size) {
 			int cnt = 0;
 
