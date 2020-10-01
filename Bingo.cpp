@@ -100,7 +100,7 @@ void printBoard(int A[N][N]) {
 	printf("\n");
 }
 
-int playerTurn(int bingo) {
+int inputNumber(int bingo) {
 	int num;
 	
 	printf("Bingo: %d\n", bingo);
@@ -218,7 +218,7 @@ int main() {
 
 		printBoard(board.player);
 
-		num = playerTurn(p.bingo);
+		num = inputNumber(bingo.pBingo);
 
 		if (num == 0) {
 			return 0;
@@ -229,7 +229,6 @@ int main() {
 			}
 
 		}
-
 
 
 
