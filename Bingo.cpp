@@ -23,11 +23,8 @@ struct Random {
 };
 
 struct Bingo {
-	int row = 0;
-	int column = 0;
-	int leftCross = 0;
-	int rightCross = 0;
-	int bingo = 0;
+	int pRow = 0, pColumn = 0, pLeftCross = 0, pRightCross = 0, pBingo = 0;
+	int cRow = 0, cColumn = 0, cLeftCross = 0, cRightCross = 0, cBingo = 0;
 };
 
 void swap(int* a, int* b) {
@@ -116,7 +113,7 @@ int playerTurn(int bingo) {
 int check(int num) {
 	int cnt = 0;
 
-	if (num < 1 || condition.size < num) {
+	if (num < 1 || condition.size * condition.size < num) {
 		return 0;
 	}
 
@@ -139,13 +136,82 @@ int check(int num) {
 	return 0;
 }
 
+Bingo findBingo(int num) {
+	struct Bingo bingo;
+
+	for (int i = 0; i < condition.size; i++) {
+		bingo.pRow = 0;
+		bingo.pColumn = 0;
+		bingo.cRow = 0;
+		bingo.cColumn = 0;
+
+		for (int j = 0; j < condition.size; j++) {
+			if (board.player[i][j] == 0 || board.player[i][j] == num) {
+				bingo.pRow++;
+			}
+			if (board.player[j][i] == 0 || board.player[j][i] == num) {
+				bingo.pColumn++;
+			}
+			if (board.computer[i][j] == 0 || board.computer[i][j] == num) {
+				bingo.cRow++;
+			}
+			if (board.computer[j][i] == 0 || board.computer[j][i] == num) {
+				bingo.cColumn++;
+			}
+		}
+
+		if (bingo.pRow == condition.size) {
+			bingo.pBingo++;
+		}
+		if (bingo.cColumn == condition.size) {
+			bingo.pBingo++;
+		}
+		if (bingo.pRow == condition.size) {
+			bingo.cBingo++;
+		}
+		if (bingo.cColumn == condition.size) {
+			bingo.cBingo++;
+		}
+	}
+
+	for (int i = 0; i < condition.size; i++) {
+		if (board.player[i][i] == 0 || board.player[i][i] == num) {
+			bingo.pLeftCross++;
+		}
+		if (board.player[i][condition.size - i - 1] == 0 || board.player[i][condition.size - i - 1] == num) {
+			bingo.pRightCross++;
+		}
+		if (board.computer[i][i] == 0 || board.computer[i][i] == num) {
+			bingo.cLeftCross++;
+		}
+		if (board.computer[i][condition.size - i - 1] == 0 || board.computer[i][condition.size - i - 1] == num) {
+			bingo.cRightCross++;
+		}
+	}
+
+	if (bingo.pLeftCross == condition.size) {
+		bingo.pBingo++;
+	}
+	if (bingo.pRightCross == condition.size) {
+		bingo.pBingo++;
+	}
+	if (bingo.cLeftCross == condition.size) {
+		bingo.cBingo++;
+	}
+	if (bingo.cRightCross == condition.size) {
+		bingo.cBingo++;
+	}
+
+	return bingo;
+}
+
 int main() {
 	srand(time(NULL));
 
 	inputCondition();
 	makeBoard();
 	
-	struct Bingo p, c;
+	struct Bingo bingo;
 	int num;
 	while (1) {
 		system("cls");
@@ -163,6 +229,10 @@ int main() {
 			}
 
 		}
+
+
+
+
 
 		else if (1 <= num && num <= size * size) {
 			int cnt = 0;
