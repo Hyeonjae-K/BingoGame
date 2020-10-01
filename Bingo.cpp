@@ -356,6 +356,8 @@ void computerTurn() {
 	}
 	else {
 		num = hardMode(remainNums, length);
+
+		check(num);
 	}
 }
 
