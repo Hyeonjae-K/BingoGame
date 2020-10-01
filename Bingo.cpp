@@ -205,7 +205,7 @@ if (board.computer[j][i] == 0) {
 	return bingo;
 }
 
-void normalMode(int A[], int length) {
+int normalMode(int A[], int length) {
 	int maxBingo = 0, num = 0;
 
 	for (int k = 0; k < length; k++) {
@@ -254,16 +254,51 @@ void normalMode(int A[], int length) {
 		}
 	}
 
-	if (num != 0) {
-		check(num);
-	}
-	else {
-		check(A[rand() % length]);
-	}
+	return num;
 }
 
-void hardMode(int A[], int length) {
+int hardMode(int A[], int length) {
+	int num = normalMode(A, length);
 
+	if (num == 0) {
+		int maxSum = 0;
+
+		for (int k = 0; k < length; k++) {
+			struct Bingo bingo;
+
+			for (int i = 0; i < condition.size; i++) {
+				if (board.computer[i][i] == 0 || board.computer[i][i] == A[k]) {
+					bingo.cLeftCross++;
+				}
+				if (board.computer[i][condition.size - i - 1] == 0 || board.computer[i][condition.size - i - 1] == A[k]) {
+					bingo.cRightCross++;
+				}
+			}
+
+			for (int i = 0; i < condition.size; i++) {
+				int sum;
+				bingo.cRow = 0;
+				bingo.cColumn = 0;
+
+				for (int j = 0; j < condition.size; j++) {
+					if (board.computer[i][j] == 0 || board.computer[i][j] == A[k]) {
+						bingo.cRow++;
+					}
+					if (board.computer[j][i] == 0 || board.computer[j][i] == A[k]) {
+						bingo.cColumn++;
+					}
+				}
+
+				sum = bingo.cRow + bingo.cColumn + bingo.cLeftCross + bingo.cRightCross;
+				if (maxSum < sum) {
+					maxSum = sum;
+					num = A[k];
+				}
+			}
+		}
+	}
+
+	return num;
 }
 
 int findWinner(Bingo bingo) {
@@ -310,10 +345,17 @@ void computerTurn() {
 		check(remainNums[rand() % length]);
 	}
 	else if (condition.level == 1) {
-		normalMode(remainNums, length);
+		num = normalMode(remainNums, length);
+
+		if (num == 0) {
+			check(remainNums[rand() % length]);
+		}
+		else {
+			check(num);
+		}
 	}
 	else {
-		hardMode(remainNums, length);
+		num = hardMode(remainNums, length);
 	}
 }
 
